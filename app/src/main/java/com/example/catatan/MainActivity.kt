@@ -75,6 +75,11 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "Harap Mengisi Semua Kolom", Toast.LENGTH_SHORT).show()
                 }
             }
+            hapusBtn.setOnClickListener {
+                viewmodel.deleteCatatan(catatanEntity)
+                mDialog?.dismiss()
+                Toast.makeText(this@MainActivity, "Catatan Berhasil dihapus", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
