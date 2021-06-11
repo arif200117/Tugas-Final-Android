@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catatan.User.CatatanEntity
 import com.example.catatan.User.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,10 +24,25 @@ class MainActivity : AppCompatActivity() {
 
         viewmodel = ViewModelProvider(this).get(UserViewModel::class.java)
 
+        recylerview.setHasFixedSize(true)
+        recylerview.layoutManager = LinearLayoutManager(this)
+
+        viewmodel.getCatatans()?.observe(this, Observer {
+            recylerview.adapter = Adapter(it, object : Adapter.Listener {
+                override fun onClick(catatanEntity: CatatanEntity) {
+                    showUpdateDialog(catatanEntity)
+                }
+            })
+        })
+
         addbtn.setOnClickListener {
             showAddDialog()
         }
 
+    }
+
+    private fun showUpdateDialog(catatanEntity: CatatanEntity) {
+        //
     }
 
     private fun showAddDialog() {
