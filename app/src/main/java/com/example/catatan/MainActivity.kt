@@ -42,7 +42,40 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showUpdateDialog(catatanEntity: CatatanEntity) {
-        //
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog, null)
+        val builder = this.let {
+            AlertDialog.Builder(it)
+                .setView(dialogView)
+        }
+        val mDialog = builder?.show()
+        with(dialogView) {
+
+            judulinput.setText(catatanEntity.judul)
+            deskripsiinput.setText(catatanEntity.deskripsi)
+            lokasiinput.setText(catatanEntity.lokasi)
+            waktuInput.setText(catatanEntity.waktu)
+
+            hapusBtn.visibility = View.VISIBLE
+            savebtn.text = "update"
+            savebtn.setOnClickListener {
+                val judul = judulinput.text.toString()
+                val desc = deskripsiinput.text.toString()
+                val waktu = waktuInput.text.toString()
+                val lokasi = lokasiinput.text.toString()
+
+                if( judul != "" &&  desc != "" &&  waktu != "" && lokasi != "") {
+                    viewmodel.updateCatatan(
+                        CatatanEntity(
+                            catatanEntity.id, judul, desc, waktu, lokasi
+                        )
+                    )
+                    mDialog?.dismiss()
+                    Toast.makeText(this@MainActivity, "Catatan Berhasil Diubah", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this@MainActivity, "Harap Mengisi Semua Kolom", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun showAddDialog() {
